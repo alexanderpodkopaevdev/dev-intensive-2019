@@ -48,6 +48,8 @@ class ExampleUnitTest {
     fun test_new_name() {
         println(Utils.transliteration("Женя Стереотипов")) //Zhenya Stereotipov
         println(Utils.transliteration("Amazing Петр", "_")) //Amazing_Petr
+        println(Utils.transliteration("[mi mi m]i", " ")) //Amazing_Petr
+
     }
 
     @Test
