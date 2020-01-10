@@ -2,10 +2,8 @@ package ru.skillbranch.devintensive
 
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import ru.skillbranch.devintensive.extensions.TimeUnits
-import ru.skillbranch.devintensive.extensions.add
-import ru.skillbranch.devintensive.extensions.format
-import ru.skillbranch.devintensive.extensions.humanizeDiff
+import ru.skillbranch.devintensive.extensions.*
+import ru.skillbranch.devintensive.models.User
 import ru.skillbranch.devintensive.utils.Utils
 import java.util.*
 
@@ -63,5 +61,13 @@ class ExampleUnitTest {
         println(Date().add(-2, TimeUnits.DAY).humanizeDiff()) //через 7 дней
         println(Date().add(-12, TimeUnits.DAY).humanizeDiff()) //более года назад
         println(Date().add(-101, TimeUnits.DAY).humanizeDiff()) //более чем через год
+    }
+
+    @Test
+    fun test_userView() {
+        val user = User.makeUser("Иванов Иван")
+        user.lastVisit = Date().add(-4,TimeUnits.DAY)
+        val userView = user.toUserView()
+        userView.printMe()
     }
 }
