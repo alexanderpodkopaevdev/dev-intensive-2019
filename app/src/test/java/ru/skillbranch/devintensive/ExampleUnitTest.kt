@@ -93,4 +93,17 @@ class ExampleUnitTest {
             .isOnline(true)
             .build())
     }
+
+    @Test
+    fun test_truncate() {
+        println("Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate()) //Bender Bending R...
+        println("Bender Bending Rodriguez — дословно «Сгибальщик Сгибающий Родригес»".truncate(15)) //Bender Bending...
+        println("A     ".truncate(3)) //A
+    }
+
+    @Test
+    fun test_stripHTML(){
+        println("<p class=\"title\">Образовательное IT-сообщество Skill Branch</p>".stripHtml()) //Образовательное IT-сообщество Skill Branch
+        println("<p>Образовательное       IT-сообщество Skill Branch</p>".stripHtml()) //Образовательное IT-сообщество Skill Branch
+    }
 }
