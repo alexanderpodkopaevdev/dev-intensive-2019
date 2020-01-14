@@ -13,7 +13,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
     fun listenAnswer(answer: String): Pair<String, Triple<Int, Int, Int>> {
 
-        return if (question.answer.contains(answer)) {
+        return if (question.answer.contains(answer.toLowerCase())) {
             question = question.nextQuestion()
             "Отлично - ты справился\n${question.question}" to status.color
         } else {
@@ -29,11 +29,44 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
 
     }
 
+    fun validation(answer: String): Pair<String, Triple<Int, Int, Int>> {
+        return when (question) {
+            Question.NAME -> {
+                if (answer.first().isLowerCase())
+                    "Имя должно начинаться с заглавной буквы\n${question.question}" to status.color
+                else listenAnswer(answer)
+            }
+            Question.PROFESSION -> {
+                if (answer.first().isUpperCase())
+                    "Профессия должна начинаться со строчной буквы\n${question.question}" to status.color
+                else listenAnswer(answer)
+            }
+            Question.MATERIAL -> {
+                if (!answer.matches(Regex("^\\D*$")))
+                    "Материал не должен содержать цифр\n${question.question}" to status.color
+                else listenAnswer(answer)
+            }
+            Question.BDAY -> {
+                if (answer.matches(Regex("^\\D*$")))
+                    "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
+                else listenAnswer(answer)
+            }
+            Question.SERIAL -> {
+                if (answer.matches(Regex("^\\D*$")) || answer.length != 7)
+                    "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
+                else listenAnswer(answer)
+            }
+            Question.IDLE -> listenAnswer(answer)
+        }
+    }
+
+
+
     enum class Status(val color: Triple<Int, Int, Int>) {
         NORMAL(Triple(255, 255, 255)),
         WARNING(Triple(255, 120, 0)),
         DANGER(Triple(255, 60, 60)),
-        CRITICAL(Triple(255, 255, 0));
+        CRITICAL(Triple(255, 0, 0));
 
         fun nextStatus(): Status {
             return if (this.ordinal < values().lastIndex) {
