@@ -4,11 +4,13 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.skillbranch.devintensive.extensions.hideKeyboard
 import ru.skillbranch.devintensive.models.Bender
 
 class MainActivity : AppCompatActivity() {
@@ -34,11 +36,21 @@ class MainActivity : AppCompatActivity() {
 
         val (r,g,b) = benderObj.status.color
         ivBender.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
+        etMessage.imeOptions = EditorInfo.IME_ACTION_DONE
+        etMessage.setSingleLine(true)
+        etMessage.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                ivSend.performClick()
+            } else {
+                false
+            }
 
+        }
         tvText.text = benderObj.askQuesiton()
         ivSend.setOnClickListener {
             val (phrase, color) = benderObj.listenAnswer(etMessage.text.toString().toLowerCase())
             etMessage.setText("")
+            this.hideKeyboard()
             val (r,g,b) = color
             ivBender.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
             tvText.text = phrase
