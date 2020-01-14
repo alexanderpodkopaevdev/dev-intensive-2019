@@ -23,7 +23,7 @@ fun Activity.isKeyboardOpen() : Boolean {
     this.window.decorView.getWindowVisibleDisplayFrame(rect)
     val visibleDisplayFrameHeight: Int = rect.top
     val diff = (screenHeight - visibleDisplayFrameHeight)
-    return diff > 100
+    return diff < 100
 }
 
 fun Activity.isKeyboardClosed() : Boolean  {
@@ -32,5 +32,5 @@ fun Activity.isKeyboardClosed() : Boolean  {
     this.window.decorView.getWindowVisibleDisplayFrame(rect)
     val visibleDisplayFrameHeight: Int = rect.top
     val diff = (screenHeight - visibleDisplayFrameHeight)
-    return diff < 100
+    return diff > 100
 }

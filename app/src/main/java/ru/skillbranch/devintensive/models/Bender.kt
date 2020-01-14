@@ -47,12 +47,12 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                 else listenAnswer(answer)
             }
             Question.BDAY -> {
-                if (answer.matches(Regex("^\\D*$")))
+                if (answer.matches(Regex("^\\D|\\W*$")))
                     "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
                 else listenAnswer(answer)
             }
             Question.SERIAL -> {
-                if (answer.matches(Regex("^\\D*$")) || answer.length != 7)
+                if (answer.matches(Regex("^\\D|\\W*$")) || answer.length != 7)
                     "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
                 else listenAnswer(answer)
             }
