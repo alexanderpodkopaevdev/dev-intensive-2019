@@ -48,9 +48,9 @@ class MainActivity : AppCompatActivity() {
         }
         tvText.text = benderObj.askQuesiton()
         ivSend.setOnClickListener {
+            this.hideKeyboard()
             val (phrase, color) = benderObj.validation(etMessage.text.toString())
             etMessage.setText("")
-            this.hideKeyboard()
             val (r,g,b) = color
             ivBender.setColorFilter(Color.rgb(r,g,b),PorterDuff.Mode.MULTIPLY)
             tvText.text = phrase

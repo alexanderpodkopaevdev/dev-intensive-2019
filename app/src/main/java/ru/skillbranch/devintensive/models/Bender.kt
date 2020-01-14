@@ -48,7 +48,12 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
             }
             Question.BDAY -> {
                 if (answer.matches(Regex("^\\D|\\W*$")))
-                    "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
+                    try {
+                        answer.toInt()
+                        listenAnswer(answer)
+                    } catch (e :Exception) {
+                        "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
+                    }
                 else listenAnswer(answer)
             }
             Question.SERIAL -> {
@@ -90,7 +95,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         BDAY("Когда меня создали?", listOf("2993")) {
             override fun nextQuestion(): Question = SERIAL
         },
-        SERIAL("Какой мой серийный номер", listOf("2716057")) {
+        SERIAL("Мой серийный номер?", listOf("2716057")) {
             override fun nextQuestion(): Question = IDLE
         },
         IDLE("На этом всё, вопросов больше нет", listOf()) {
