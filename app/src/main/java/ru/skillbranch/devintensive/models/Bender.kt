@@ -47,19 +47,22 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
                 else listenAnswer(answer)
             }
             Question.BDAY -> {
-                if (answer.matches(Regex("^\\D|\\W*$")))
                     try {
                         answer.toInt()
                         listenAnswer(answer)
                     } catch (e :Exception) {
                         "Год моего рождения должен содержать только цифры\n${question.question}" to status.color
                     }
-                else listenAnswer(answer)
             }
             Question.SERIAL -> {
-                if (answer.matches(Regex("^\\D|\\W*$")) || answer.length != 7)
+                try {
+                    answer.toInt()
+                    if (answer.length != 7)
+                        "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
+                    else listenAnswer(answer)
+                } catch (e: Exception) {
                     "Серийный номер содержит только цифры, и их 7\n${question.question}" to status.color
-                else listenAnswer(answer)
+                }
             }
             Question.IDLE -> listenAnswer(answer)
         }
@@ -98,7 +101,7 @@ class Bender(var status: Status = Status.NORMAL, var question: Question = Questi
         SERIAL("Мой серийный номер?", listOf("2716057")) {
             override fun nextQuestion(): Question = IDLE
         },
-        IDLE("На этом всё, вопросов больше нет", listOf()) {
+        IDLE("На этом все, вопросов больше нет", listOf()) {
             override fun nextQuestion(): Question = IDLE
         };
 
